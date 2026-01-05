@@ -18,3 +18,6 @@ Sistema completo de gestão de tarefas desenvolvido com Java e Spring Boot, apre
 - [x] Design Responsivo (Funciona no celular).
 
 ## 📸 Screenshots
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/250d8127-1aec-4016-ad71-17e060a9494d" width="800">
+</p>
