@@ -1,0 +1,13 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.properties
+bin/
+.settings/
+.project
+.classpath
+.factorypath
+.idea/
+*.iml
+.vscode/
+*.log
+application.properties
