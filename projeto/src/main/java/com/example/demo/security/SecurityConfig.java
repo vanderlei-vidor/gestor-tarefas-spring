@@ -22,7 +22,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         // ADICIONAMOS /cadastro E /usuarios/salvar NA LISTA ABAIXO
-                        .requestMatchers("/login", "/cadastro", "/usuarios/salvar", "/css/**", "/js/**").permitAll()
+                        .requestMatchers("/", "/cadastrar", "/login", "/usuarios/salvar", "/css/**", "/js/**")
+                        .permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")

@@ -68,6 +68,11 @@ public class WebController {
         return "index";
     }
 
+    @GetMapping("/")
+    public String home() {
+        return "cadastrar"; // Abre o cadastrar.html quando acessar o link puro do site
+    }
+
     @PostMapping("/tarefas/salvar")
     public String salvarTarefa(Task task, @AuthenticationPrincipal UserDetails userDetails) {
         // 1. Acha o dono da tarefa
