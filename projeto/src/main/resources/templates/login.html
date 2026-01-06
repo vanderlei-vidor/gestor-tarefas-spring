@@ -26,6 +26,10 @@
                 E-mail ou senha inválidos!
             </div>
 
+            <div th:if="${param.sucesso}" class="alert alert-success small p-2 text-center">
+                <i class="bi bi-check-circle-fill me-1"></i> Conta criada com sucesso! Faça seu login.
+            </div>
+
             <form th:action="@{/login}" method="post">
                 <div class="mb-3">
                     <label class="form-label small fw-bold">E-mail</label>
@@ -45,7 +49,7 @@
             </form>
             
             <div class="text-center mt-3">
-                <p class="small text-muted">Ainda não tem conta? <a href="/cadastrar" class="text-decoration-none">Crie uma aqui</a></p>
+                <p class="small text-muted">Ainda não tem conta?<a th:href="@{/cadastrar}" class="text-decoration-none">Crie uma aqui</a></p>
             </div>
         </div>
     </div>

@@ -140,11 +140,18 @@ public class WebController {
     }
 
     @PostMapping("/cadastrar")
-    public String registrarUsuario(Usuario usuario) {
-        // IMPORTANTE: Criptografar a senha antes de salvar!
+    public String registrarUsuario(Usuario usuario, Model model) {
+        // 1. Verifica se o e-mail já está cadastrado
+        if (repositoryUsuario.findByEmail(usuario.getEmail()).isPresent()) {
+            model.addAttribute("erro", "Este e-mail já está em uso!");
+            return "cadastrar"; // Volta para a tela de cadastro exibindo o erro
+        }
+
+        // 2. Criptografa e salva
         usuario.setSenha(encoder.encode(usuario.getSenha()));
         repositoryUsuario.save(usuario);
-        return "redirect:/login?sucesso"; // Volta para o login com aviso de sucesso
+
+        return "redirect:/login?sucesso";
     }
 
 }
