@@ -10,6 +10,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Data
 public class Task {
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 </head>
 <body class="bg-light">
-
+<p class="text-center px-3 mt-2">
+    Bem-vindo, <strong th:text="${nomeUsuario}">Usuário</strong>!
+</p>
     <div class="container mt-4">
     <div class="row mb-4">
         <div class="col-md-3">
@@ -46,7 +48,8 @@
     </div>
 
     <div class="row mb-4">
-    <div class="col-md-4 offset-md-4"> <div class="card shadow-sm p-3">
+    <div class="col-md-4 offset-md-4"> 
+        <div class="card shadow-sm p-3">
             <h5 class="text-center mb-3 text-muted">Distribuição de Status</h5>
             <div style="position: relative; height: 200px; width: 100%;">
                 <canvas id="meuGrafico"></canvas>
@@ -57,14 +60,23 @@
     <div class="container mt-5">
         <div class="card shadow">
             <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                <h3 class="mb-0"><i class="bi bi-check2-square"></i> Gestor de Tarefas</h3>
-                <a th:href="@{/tarefas/pdf}" class="btn btn-light btn-sm">
-                    <i class="bi bi-file-earmark-pdf"></i> Exportar PDF
-                </a>
-                <a th:href="@{/tarefas/excel}" class="btn btn-success btn-sm text-white">
-            <i class="bi bi-file-earmark-excel"></i> Exportar Excel
+        <h3 class="mb-0"><i class="bi bi-check2-square"></i> Gestor de Tarefas</h3>
+    
+    <div>
+        <a th:href="@{/tarefas/pdf}" class="btn btn-light btn-sm">
+            <i class="bi bi-file-earmark-pdf"></i> PDF
         </a>
-            </div>
+        <a th:href="@{/tarefas/excel}" class="btn btn-success btn-sm text-white">
+            <i class="bi bi-file-earmark-excel"></i> Excel
+        </a>
+
+        <form th:action="@{/logout}" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-danger btn-sm ms-2">
+                <i class="bi bi-box-arrow-right"></i> Sair
+            </button>
+        </form>
+    </div>
+</div>
             <div class="card-body">
 
                 <form th:action="@{/tarefas/salvar}" method="post" class="row g-3 mb-4 p-3 bg-light border rounded">
@@ -90,6 +102,7 @@
             </button>
         </div>
         <input type="hidden" name="status" value="TODO">
+    
     </form>
                 
                 <table class="table table-hover mt-3">
@@ -103,23 +116,31 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="task : ${listaDeTarefas}">
-                            <td th:text="${task.title}" class="fw-bold"></td>
-                            <td th:text="${task.description}"></td>
-                            <td>
-                                <span th:classappend="${task.status.name() == 'DONE' ? 'badge bg-success' : 'badge bg-warning text-dark'}" 
-                                      th:text="${task.status}"></span>
-                            </td>
-                            <td th:text="${#temporals.format(task.dueDate, 'dd/MM/yyyy')}"></td>
-                            <td class="text-center">
-                                <a th:href="@{/tarefas/excluir/{id}(id=${task.id})}" 
-                                   class="btn btn-outline-danger btn-sm"
-                                   onclick="return confirm('Deseja realmente excluir esta tarefa?')">
-                                    <i class="bi bi-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    </tbody>
+    <tr th:each="task : ${listaDeTarefas}">
+        <td th:text="${task.title}" class="fw-bold"></td>
+        <td th:text="${task.description}"></td>
+        <td>
+            <span th:classappend="${task.status.name() == 'DONE' ? 'badge bg-success' : 'badge bg-warning text-dark'}" 
+                  th:text="${task.status}"></span>
+        </td>
+        <td th:text="${#temporals.format(task.dueDate, 'dd/MM/yyyy')}"></td>
+        <td class="text-center">
+            <form th:if="${task.status.name() != 'DONE'}" 
+                  th:action="@{/tarefas/concluir/{id}(id=${task.id})}" 
+                  method="post" style="display:inline;">
+                <button type="submit" class="btn btn-outline-success btn-sm" title="Marcar como Concluída">
+                    <i class="bi bi-check-lg"></i>
+                </button>
+            </form>
+
+            <a th:href="@{/tarefas/excluir/{id}(id=${task.id})}" 
+               class="btn btn-outline-danger btn-sm"
+               onclick="return confirm('Deseja realmente excluir esta tarefa?')">
+                <i class="bi bi-trash"></i>
+            </a>
+        </td>
+    </tr>
+</tbody>
                 </table>
 
                 <div th:if="${#lists.isEmpty(listaDeTarefas)}" class="alert alert-info text-center">
