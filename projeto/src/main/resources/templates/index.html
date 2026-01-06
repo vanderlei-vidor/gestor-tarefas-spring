@@ -11,6 +11,34 @@
 <p class="text-center px-3 mt-2">
     Bem-vindo, <strong th:text="${nomeUsuario}">Usuário</strong>!
 </p>
+
+    <div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white text-center p-3">
+            <h6>Total</h6>
+            <h2 th:text="${total}">0</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-secondary text-white text-center p-3">
+            <h6>Pendentes</h6>
+            <h2 th:text="${qtdPendentes}">0</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-dark text-center p-3">
+            <h6>Fazendo</h6>
+            <h2 th:text="${qtdFazendo}">0</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white text-center p-3">
+            <h6>Concluídas</h6>
+            <h2 th:text="${qtdConcluidas}">0</h2>
+        </div>
+    </div>
+</div>
+
     <div class="container mt-4">
     <div class="row mb-4">
         <div class="col-md-3">
