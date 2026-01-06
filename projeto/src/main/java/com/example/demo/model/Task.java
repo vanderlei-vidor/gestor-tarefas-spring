@@ -3,6 +3,9 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -28,4 +31,19 @@ public class Task {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dueDate;
+
+    private LocalDateTime dataCriacao;
+
+    @PrePersist
+    protected void onCreate() {
+        this.dataCriacao = LocalDateTime.now();
+    }
+
+    // Método para formatar a data na tela (Ex: 06/01/2026)
+    public String getDataFormatada() {
+        if (this.dataCriacao == null)
+            return "";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        return this.dataCriacao.format(formatter);
+    }
 }
