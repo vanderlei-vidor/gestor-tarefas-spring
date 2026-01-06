@@ -122,7 +122,7 @@
     <tr th:each="task : ${listaDeTarefas}">
         <td th:text="${task.title}" class="fw-bold"></td>
         <td th:text="${task.description}"></td>
-        <td th:text="${tarefa.dataFormatada}">06/01/2026</td>
+        <td th:text="${tarefa.getDataFormatada()}"></td>
         <td>
             <span th:classappend="${task.status.name() == 'DONE' ? 'badge bg-success' : 'badge bg-warning text-dark'}" 
                   th:text="${task.status}"></span>

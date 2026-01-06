@@ -41,8 +41,10 @@ public class Task {
 
     // Método para formatar a data na tela (Ex: 06/01/2026)
     public String getDataFormatada() {
-        if (this.dataCriacao == null)
-            return "";
+        // Se a data for nula (tarefas antigas), retorna um aviso ou vazio
+        if (this.dataCriacao == null) {
+            return "Sem data";
+        }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         return this.dataCriacao.format(formatter);
     }
