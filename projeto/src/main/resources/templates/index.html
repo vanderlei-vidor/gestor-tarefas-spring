@@ -6,6 +6,22 @@
     <title>Gestor de Tarefas Pro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+<style>
+    /* Permite rolar o modal se o conteúdo for maior que a tela do celular */
+    .modal-dialog {
+        max-width: 95%; /* Não deixa colar totalmente nas bordas no PC */
+        margin: 1.75rem auto;
+    }
+    
+    @media (max-width: 576px) {
+        .modal-body {
+            max-height: 70vh; /* Limita a altura em 70% da tela do celular */
+            overflow-y: auto; /* Cria uma barra de rolagem interna se precisar */
+        }
+    }
+</style>
+
 </head>
 <body class="bg-light">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
@@ -184,7 +200,7 @@
         </td>
 
         <div class="modal fade" th:id="'modalEditar' + ${task.id}" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
         <div class="modal-content">
             <form th:action="@{/tarefas/editar/{id}(id=${task.id})}" method="post">
                 <div class="modal-header bg-primary text-white">
@@ -192,27 +208,28 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-start">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Título</label>
-                        <input type="text" name="title" th:value="${task.title}" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Descrição</label>
-                        <textarea name="description" th:text="${task.description}" class="form-control" rows="3"></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Status</label>
-                        <select name="status" class="form-select">
-                            <option value="TODO" th:selected="${task.status.name() == 'TODO'}">Pendente</option>
-                            <option value="DOING" th:selected="${task.status.name() == 'DOING'}">Fazendo</option>
-                            <option value="DONE" th:selected="${task.status.name() == 'DONE'}">Concluída</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Prazo</label>
-                        <input type="date" name="dueDate" th:value="${task.dueDate}" class="form-control" required>
-                    </div>
-                </div>
+    <div class="container-fluid"> <div class="row g-3">
+            <div class="col-12">
+                <label class="form-label fw-bold">Título</label>
+                <input type="text" name="title" th:value="${task.title}" class="form-control" required>
+            </div>
+            <div class="col-12">
+                <label class="form-label fw-bold">Descrição</label>
+                <textarea name="description" th:text="${task.description}" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="col-6"> <label class="form-label fw-bold">Status</label>
+                <select name="status" class="form-select">
+                    <option value="TODO" th:selected="${task.status.name() == 'TODO'}">Pendente</option>
+                    <option value="DOING" th:selected="${task.status.name() == 'DOING'}">Fazendo</option>
+                    <option value="DONE" th:selected="${task.status.name() == 'DONE'}">Concluída</option>
+                </select>
+            </div>
+            <div class="col-6"> <label class="form-label fw-bold">Prazo</label>
+                <input type="date" name="dueDate" th:value="${task.dueDate}" class="form-control" required>
+            </div>
+        </div>
+    </div>
+</div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-primary">Salvar Alterações</button>
