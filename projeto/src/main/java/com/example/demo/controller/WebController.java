@@ -16,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.io.IOException;
 import java.util.List;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -74,7 +76,7 @@ public class WebController {
     }
 
     @PostMapping("/tarefas/salvar")
-    public String salvarTarefa(Task task, @AuthenticationPrincipal UserDetails userDetails) {
+    public String salvarTarefa(Task task, @AuthenticationPrincipal UserDetails userDetails, RedirectAttributes ra) {
         // 1. Acha o dono da tarefa
         String emailLogado = userDetails.getUsername();
         Usuario usuarioLogado = repositoryUsuario.findByEmail(emailLogado).get();
@@ -87,12 +89,14 @@ public class WebController {
         }
 
         repository.save(task);
+        ra.addFlashAttribute("mensagem", "Tarefa adicionada com sucesso!");
         return "redirect:/tarefas";
     }
 
     @GetMapping("/tarefas/excluir/{id}")
-    public String excluirTarefa(@PathVariable Long id) {
+    public String excluirTarefa(@PathVariable Long id, RedirectAttributes ra) {
         repository.deleteById(id);
+        ra.addFlashAttribute("mensagem", "Tarefa excluída com sucesso!");
         return "redirect:/tarefas";
     }
 
@@ -103,6 +107,23 @@ public class WebController {
             if (task.getUsuario().getEmail().equals(userDetails.getUsername())) {
                 task.setStatus(TaskStatus.DONE);
                 repository.save(task);
+            }
+        });
+        return "redirect:/tarefas";
+    }
+
+    @PostMapping("/tarefas/editar/{id}")
+    public String editarTarefa(@PathVariable Long id, Task taskAtualizada,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        repository.findById(id).ifPresent(taskExistente -> {
+            // SEGURANÇA: Só edita se o usuário logado for o dono da tarefa
+            if (taskExistente.getUsuario().getEmail().equals(userDetails.getUsername())) {
+                taskExistente.setTitle(taskAtualizada.getTitle());
+                taskExistente.setDescription(taskAtualizada.getDescription());
+                taskExistente.setStatus(taskAtualizada.getStatus());
+                taskExistente.setDueDate(taskAtualizada.getDueDate());
+
+                repository.save(taskExistente);
             }
         });
         return "redirect:/tarefas";
