@@ -19,7 +19,7 @@ Sistema completo de gestão de tarefas desenvolvido com Java e Spring Boot, apre
 
 ## 📸 Screenshots
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/3c1d4e53-4f07-4272-94ad-1648d8cd9d6c" width="800">
+  <img src="https://github.com/user-attachments/assets/3c1d4e53-4f07-4272-94ad-1648d8cd9d6c" >
 </p>
 
 
